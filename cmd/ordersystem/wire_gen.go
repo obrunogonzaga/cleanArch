@@ -17,6 +17,10 @@ import (
 	"github.com/obrunogonzaga/cleanArch/pkg/events"
 )
 
+import (
+	_ "github.com/go-sql-driver/mysql"
+)
+
 // Injectors from wire.go:
 
 func NewCreateOrderUseCase(db *sql.DB, eventDispatcher events.EventDispatcherInterface) *usecase.CreateOrderUseCase {
@@ -24,6 +28,12 @@ func NewCreateOrderUseCase(db *sql.DB, eventDispatcher events.EventDispatcherInt
 	orderCreated := event.NewOrderCreated()
 	createOrderUseCase := usecase.NewCreateOrderUseCase(orderRepository, orderCreated, eventDispatcher)
 	return createOrderUseCase
+}
+
+func NewFindAllOrdersUseCase(db *sql.DB) *usecase.FindAllOrdersUseCase {
+	orderRepository := database.NewOrderRepository(db)
+	findAllOrdersUseCase := usecase.NewFindAllOrdersUseCase(orderRepository)
+	return findAllOrdersUseCase
 }
 
 func NewWebOrderHandler(db *sql.DB, eventDispatcher events.EventDispatcherInterface) *web.WebOrderHandler {

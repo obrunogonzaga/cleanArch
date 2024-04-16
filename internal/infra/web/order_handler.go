@@ -47,3 +47,14 @@ func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (h *WebOrderHandler) FindAll(w http.ResponseWriter, r *http.Request) {
+	findAllOrders := usecase.NewFindAllOrdersUseCase(h.OrderRepository)
+	orders, err := findAllOrders.Execute()
+
+	err = json.NewEncoder(w).Encode(orders)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
