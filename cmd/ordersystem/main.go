@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/obrunogonzaga/cleanArch/internal/infra/graph"
 	"net"
 	"net/http"
 
@@ -10,7 +11,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/obrunogonzaga/cleanArch/configs"
 	"github.com/obrunogonzaga/cleanArch/internal/event/handler"
-	"github.com/obrunogonzaga/cleanArch/internal/infra/graph"
 	"github.com/obrunogonzaga/cleanArch/internal/infra/grpc/pb"
 	"github.com/obrunogonzaga/cleanArch/internal/infra/grpc/service"
 	"github.com/obrunogonzaga/cleanArch/internal/infra/web/webserver"
@@ -66,6 +66,7 @@ func main() {
 
 	srv := graphql_handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		CreateOrderUseCase: *createOrderUseCase,
+		ListOrdersUserCase: *listOrdersUseCase,
 	}}))
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

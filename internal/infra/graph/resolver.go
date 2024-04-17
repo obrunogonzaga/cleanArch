@@ -8,4 +8,5 @@ import "github.com/obrunogonzaga/cleanArch/internal/usecase"
 
 type Resolver struct {
 	CreateOrderUseCase usecase.CreateOrderUseCase
+	ListOrdersUserCase usecase.FindAllOrdersUseCase
 }
